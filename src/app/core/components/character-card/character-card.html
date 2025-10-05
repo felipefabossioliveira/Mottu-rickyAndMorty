@@ -1,0 +1,9 @@
+<div class="character-card" (click)="onCardClick()">
+    <img [src]="character.image" [alt]="character.name" />
+    <div class="character-card__info">
+        <h3>{{ character.name }}</h3>
+        <p>{{ character.species }}</p>
+    </div>
+    <img class="character-card__favorite-btn" height="24" width="24" [src]="isFavorite ? 'assets/heart-icon-filled.svg' : 'assets/heart-icon.svg'"
+        (click)="onToggleFavorite()" />
+</div>

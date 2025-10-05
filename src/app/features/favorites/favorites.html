@@ -1,0 +1,36 @@
+<div class="favorites-container">
+  <div class="favorites-container__header">
+    <h1 class="favorites-container__header__title">Favoritos</h1>
+    @if (allFavorites.length > 0) {
+    <p class="favorites-container__header__count">
+      {{ allFavorites.length }} {{ allFavorites.length === 1 ? 'personagem' : 'personagens' }}
+    </p>
+    }
+  </div>
+
+  @if (allFavorites.length > 0) {
+  <div class="favorites-container__grid">
+    @for (fav of displayedFavorites; track fav.id) {
+    <app-character-card [character]="fav" [isFavorite]="true" (toggleFavorite)="remove($event.id)">
+    </app-character-card>
+    }
+  </div>
+
+  @if (allFavorites.length > itemsPerPage) {
+  <app-pagination
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (pageChange)="onPageChange($event)"
+  >
+  </app-pagination>
+  } } @else {
+  <div class="favorites-container__empty">
+    <img src="assets/morty-gif.gif" alt="Morty dançando" />
+    <p class="favorites-container__empty__title">Nenhum favorito ainda!</p>
+    <p class="favorites-container__empty__subtitle">
+      Adicione personagens aos seus favoritos para vê-los aqui.
+    </p>
+    <a routerLink="/home" class="favorites-container__empty__button">Buscar Personagens</a>
+  </div>
+  }
+</div>

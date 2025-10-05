@@ -1,0 +1,45 @@
+.character-card {
+    border: 2px solid #3D3D3D;
+    border-radius: 12px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+        border-color: #00B5CC;
+        transform: translateY(-5px);
+    }
+
+    img {
+        border-radius: 12px 12px 0 0;
+        display: block;
+        width: 100%;
+    }
+
+    &__info {
+        padding: 0.5rem;
+
+        h3 {
+            font-family: 'Creepster';
+            color: white;
+            font-size: 24px;
+            margin: 0;
+        }
+
+        p {
+            color: #A4A4A4;
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+        }
+    }
+
+    &__favorite-btn {
+        position: absolute;
+        top: 10px;
+        left: 120px;
+        height: 40px;
+        cursor: pointer;
+        transition: all 0.3s;
+
+    }
+}

@@ -1,0 +1,34 @@
+<header class="header-container">
+  <img routerLink="/home" class="header-container__image-container__img" src="assets/rick-and-morty-logo.svg"
+    alt="Rick and Morty Logo" class="logo" />
+
+  <div class="header-container__tab-container">
+    <div class="header-container__tab-container__home" [style.background]="homeLink.isActive ? 'white' : 'transparent'">
+      <img [src]="homeLink.isActive ? 'assets/home-icon.svg' : 'assets/home-icon-white.svg'" alt="home icon" />
+      <a #homeLink="routerLinkActive" routerLink="/home" routerLinkActive="active"
+        class="header-container__tab-container__tab"
+        [style.color]="homeLink.isActive ? '#0A0A0A' : '#A4A4A4'">Início</a>
+    </div>
+
+    <div class="header-container__tab-container__favorites"
+      [style.background]="favLink.isActive ? 'white' : 'transparent'">
+      <img [src]="!favLink.isActive ? 'assets/heart-icon-gray.svg' : 'assets/heart-icon-filled.svg'" alt="" />
+      <a #favLink="routerLinkActive" routerLink="/favorites" routerLinkActive="active"
+        class="header-container__tab-container__tab"
+        [style.color]="favLink.isActive ? '#0A0A0A' : '#A4A4A4'">Favoritos</a>
+
+      <div class="header-container__tab-container__favorites__favorites-count" [style.background]="
+          ((favoritesCount$ | async) ?? 0) > 0 && !favLink.isActive ? '#FFFFFF' : '#0A0A0A'"
+        [style.border]="((favoritesCount$ | async) ?? 0) > 0 ? 'none' : '1px solid #3D3D3D'">
+        <span class="header-container__tab-container__favorites__favorites-count__count-number"
+          [appCounterAnimation]="(favoritesCount$ | async) ?? 0" [style.color]="
+    favLink.isActive 
+      ? '#FFFFFF' 
+      : (((favoritesCount$ | async) ?? 0) === 0 ? '#FFFFFF' : '#0A0A0A')">
+          {{ (favoritesCount$ | async) ?? 0 }}
+        </span>
+
+      </div>
+    </div>
+  </div>
+</header>

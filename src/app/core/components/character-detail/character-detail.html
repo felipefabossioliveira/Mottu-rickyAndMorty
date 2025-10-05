@@ -1,0 +1,89 @@
+<div class="modal" (click)="onBackdropClick($event)">
+  <div class="modal__container">
+    <button class="modal__close" (click)="onClose()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <button 
+      class="modal__nav modal__nav--prev" 
+      (click)="previousCharacter()"
+      [disabled]="currentIndex === 0">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+
+    <button 
+      class="modal__nav modal__nav--next" 
+      (click)="nextCharacter()"
+      [disabled]="currentIndex === allCharacters.length - 1">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+
+    <div class="modal__body">
+      <div class="modal__image">
+        <img [src]="character.image" [alt]="character.name" class="modal__image-img">
+        <button class="modal__favorite" [class.modal__favorite--active]="isFavorite" (click)="onToggleFavorite()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal__info">
+        <h2 class="modal__title">{{ character.name }}</h2>
+        
+        <div class="modal__grid">
+          <div class="modal__item">
+            <span class="modal__label">Status</span>
+            <div class="modal__status">
+              <span class="modal__status-dot" [style.background]="getStatusColor(character.status)"></span>
+              <span class="modal__value">{{ getStatusLabel(character.status) }}</span>
+            </div>
+          </div>
+
+          <div class="modal__item">
+            <span class="modal__label">Espécie</span>
+            <span class="modal__value">{{ character.species }}</span>
+          </div>
+
+          @if (character.type) {
+            <div class="modal__item">
+              <span class="modal__label">Tipo</span>
+              <span class="modal__value">{{ character.type }}</span>
+            </div>
+          }
+
+          <div class="modal__item">
+            <span class="modal__label">Gênero</span>
+            <span class="modal__value">{{ getGenderLabel(character.gender) }}</span>
+          </div>
+
+          <div class="modal__item">
+            <span class="modal__label">Origem</span>
+            <span class="modal__value">{{ character.origin.name }}</span>
+          </div>
+
+          <div class="modal__item">
+            <span class="modal__label">Última localização</span>
+            <span class="modal__value">{{ character.location.name }}</span>
+          </div>
+
+          <div class="modal__item modal__item--full">
+            <span class="modal__label">Aparições</span>
+            <span class="modal__value">{{ character.episode.length }} episódios</span>
+          </div>
+        </div>
+
+        <div class="modal__indicator">
+          {{ currentIndex + 1 }} / {{ allCharacters.length }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
