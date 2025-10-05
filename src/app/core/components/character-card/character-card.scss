@@ -24,17 +24,26 @@
     align-items: center;
     justify-content: space-between;
 
-    h3 {
-      font-family: 'Creepster';
-      color: white;
-      font-size: 24px;
-      margin: 0;
-    }
+    &__text {
+      display: flex;
+      flex-direction: column;
 
-    p {
-      color: #a4a4a4;
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
+      h3 {
+        font-family: 'Creepster';
+        color: white;
+        font-size: 24px;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px;
+      }
+
+      p {
+        color: #a4a4a4;
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+      }
     }
 
     &__favorite {

@@ -23,6 +23,11 @@
       background-color: #0a0a0a;
       border: solid 1px #3d3d3d;
       border-radius: 12px;
+      margin-top: 48px;
+
+      img {
+        animation: bounce 2s ease-in-out infinite;
+      }
 
       &__title,
       &__sub-title {

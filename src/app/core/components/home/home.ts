@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   openModal(character: Character) {
-    console.log('Opening modal for character:', character);
+    console.log(character)
     this.selectedCharacter = character;
   }
 

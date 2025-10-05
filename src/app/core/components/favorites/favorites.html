@@ -11,17 +11,14 @@
   @if (allFavorites.length > 0) {
   <div class="favorites-container__grid">
     @for (fav of displayedFavorites; track fav.id) {
-    <app-character-card [character]="fav" [isFavorite]="true" (toggleFavorite)="remove($event.id)">
+    <app-character-card [character]="fav" [isFavorite]="true" (toggleFavorite)="remove($event.id)"
+      (cardClick)="openModal($event)">
     </app-character-card>
     }
   </div>
 
   @if (allFavorites.length > itemsPerPage) {
-  <app-pagination
-    [currentPage]="currentPage"
-    [totalPages]="totalPages"
-    (pageChange)="onPageChange($event)"
-  >
+  <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)">
   </app-pagination>
   } } @else {
   <div class="favorites-container__empty">
@@ -34,3 +31,9 @@
   </div>
   }
 </div>
+
+@if (selectedCharacter) {
+<app-character-detail [character]="selectedCharacter" [allCharacters]="allFavorites" (close)="selectedCharacter = null"
+  (toggleFavorite)="onToggleFavorite($event)">
+</app-character-detail>
+}

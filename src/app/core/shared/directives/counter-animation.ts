@@ -8,7 +8,7 @@ export class CounterAnimationDirective implements OnChanges {
   @Input() appCounterAnimation: number = 0;
   private previousValue: number = 0;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(private el: ElementRef, private renderer: Renderer2) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['appCounterAnimation'] && !changes['appCounterAnimation'].firstChange) {
@@ -25,7 +25,7 @@ export class CounterAnimationDirective implements OnChanges {
 
   private animateChange(from: number, to: number): void {
     const element = this.el.nativeElement;
-    const direction = to > from ? 'up' : 'down';
+    const direction = to < from ? 'up' : 'down';
 
     this.renderer.removeClass(element, 'flip-up');
     this.renderer.removeClass(element, 'flip-down');
