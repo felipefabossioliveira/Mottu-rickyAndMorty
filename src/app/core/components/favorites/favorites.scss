@@ -1,4 +1,4 @@
-@import '../../../styles/animations.scss'; 
+@import '../../../../styles/animations.scss';
 
 .favorites-container {
   display: flex;
@@ -10,7 +10,7 @@
     max-width: 1200px;
     margin-bottom: 48px;
     align-self: flex-start;
-   
+
     &__title {
       font-family: 'Creepster', cursive;
       font-size: 48px;
@@ -59,7 +59,7 @@
     border-radius: 12px;
     max-width: 600px;
     text-align: center;
-    animation: fadeIn 0.6s ease-out; 
+    animation: fadeIn 0.6s ease-out;
 
     img {
       width: 200px;

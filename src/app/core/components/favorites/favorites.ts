@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { map, Observable } from 'rxjs';
-import { FavoritesService } from '../../core/services/favorites';
-import { Character } from '../../core/models/character/character';
-import { CharacterCardComponent } from '../../core/components/character-card/character-card';
-import { PaginationComponent } from '../../core/components/pagination/pagination';
+import { Observable } from 'rxjs';
+import { CharacterCardComponent } from '../character-card/character-card';
+import { PaginationComponent } from '../pagination/pagination';
+import { Character } from '../../models/character/character';
+import { FavoritesService } from '../../services/favorites';
+
 
 @Component({
   selector: 'app-favorites',
@@ -23,15 +24,14 @@ export class FavoritesComponent implements OnInit {
   itemsPerPage = 9;
   totalPages = 0;
 
-  constructor(private favService: FavoritesService) {}
+  constructor(private favService: FavoritesService) { }
 
   ngOnInit(): void {
     this.favorites$ = this.favService.favorites$;
 
-    // Sempre que os favoritos mudarem, atualiza a paginação
     this.favorites$.subscribe((favs) => {
       this.allFavorites = favs;
-      this.currentPage = 1; 
+      this.currentPage = 1;
       this.updateDisplayedFavorites();
     });
   }

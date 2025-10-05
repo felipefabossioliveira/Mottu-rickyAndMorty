@@ -1,45 +1,70 @@
+@import '../../../../styles/modal';
+
 .character-card {
-    border: 2px solid #3D3D3D;
-    border-radius: 12px;
-    transition: all 0.3s;
-    cursor: pointer;
-    position: relative;
+  border: 2px solid #3d3d3d;
+  border-radius: 12px;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative;
 
-    &:hover {
-        border-color: #00B5CC;
-        transform: translateY(-5px);
+  &:hover {
+    border-color: #00b5cc;
+    transform: translateY(-5px);
+  }
+
+  img {
+    border-radius: 12px 12px 0 0;
+    display: block;
+    width: 100%;
+  }
+
+  &__info {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+      font-family: 'Creepster';
+      color: white;
+      font-size: 24px;
+      margin: 0;
     }
 
-    img {
-        border-radius: 12px 12px 0 0;
-        display: block;
-        width: 100%;
+    p {
+      color: #a4a4a4;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
     }
 
-    &__info {
-        padding: 0.5rem;
+    &__favorite {
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
 
-        h3 {
-            font-family: 'Creepster';
-            color: white;
-            font-size: 24px;
-            margin: 0;
-        }
+      svg {
+        fill: #cacaca;
+        stroke: #cacaca;
+        transition: all 0.3s ease;
+      }
 
-        p {
-            color: #A4A4A4;
-            font-family: "Poppins", sans-serif;
-            margin: 0;
-        }
+      &:hover {
+        transform: scale(1.05);
+        background: white;
+      }
+
+      &--active svg {
+        fill: #ff4757;
+        stroke: #ff4757;
+        animation: heartPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
     }
-
-    &__favorite-btn {
-        position: absolute;
-        top: 10px;
-        left: 120px;
-        height: 40px;
-        cursor: pointer;
-        transition: all 0.3s;
-
-    }
+  }
 }

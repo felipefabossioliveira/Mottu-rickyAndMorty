@@ -1,4 +1,4 @@
-@import '../../../styles/animations.scss';
+@import '../../../../styles/animations';
 
 .container {
   display: flex;
@@ -45,7 +45,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 48px 0 48px 0;
+      padding: 48px 0 13px 0;
 
       &__title {
         font-family: 'Creepster', cursive;

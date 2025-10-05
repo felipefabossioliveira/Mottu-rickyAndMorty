@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FavoritesComponent } from './features/favorites/favorites';
-import { HomeComponent } from './features/home/home';
+import { HomeComponent } from './core/components/home/home';
 
 
 export const routes: Routes = [
@@ -9,12 +8,7 @@ export const routes: Routes = [
     { path: 'home', component: HomeComponent },
     {
         path: 'favorites',
-        loadComponent: () => import('./features/favorites/favorites').then(mod => mod.FavoritesComponent)
-    },
-    {
-        path: 'modal',
-        loadComponent: () => import('./core/components/character-detail/character-detail').then(mod => mod.CharacterDetailModalComponent)
-
+        loadComponent: () => import('./core/components/favorites/favorites').then(mod => mod.FavoritesComponent)
     },
     { path: '**', redirectTo: 'home' }
 ];

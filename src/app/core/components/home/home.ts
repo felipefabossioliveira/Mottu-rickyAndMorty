@@ -12,14 +12,14 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
-import { CharacterService } from '../../core/services/character';
-import { FavoritesService } from '../../core/services/favorites';
-import { Character } from '../../core/models/character/character';
+import { CharacterService } from '../../services/character';
+import { FavoritesService } from '../../services/favorites';
+import { Character } from '../../models/character/character';
 import { CommonModule } from '@angular/common';
-import { CharacterApiResponse } from '../../core/models/character/character-api-response.model';
-import { CharacterCardComponent } from '../../core/components/character-card/character-card';
-import { PaginationComponent } from '../../core/components/pagination/pagination';
-import { CharacterDetailModalComponent } from '../../core/components/character-detail/character-detail';
+import { CharacterApiResponse } from '../../models/character/character-api-response.model';
+import { CharacterCardComponent } from '../character-card/character-card';
+import { PaginationComponent } from '../pagination/pagination';
+import { CharacterDetailModalComponent } from '../character-detail/character-detail';
 
 @Component({
   selector: 'app-home',

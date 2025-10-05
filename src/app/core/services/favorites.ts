@@ -26,12 +26,12 @@ export class FavoritesService {
   }
 
   isFavorite(character: Character): boolean {
-    const currentFavs = this.favoritesSubject.value; 
+    const currentFavs = this.favoritesSubject.value;
     return currentFavs.some(f => f.id === character.id);
   }
 
   removeFavorite(id: number) {
-    const currentFavs = this.favoritesSubject.value; 
+    const currentFavs = this.favoritesSubject.value;
     const favs = currentFavs.filter(c => c.id !== id);
     this.saveFavorites(favs);
   }
