@@ -22,7 +22,8 @@
     @if (displayedFavorites.length > 0) {
     <div class="favorites-container__grid">
       @for (fav of displayedFavorites; track fav.id) {
-      <app-character-card [character]="fav" [isFavorite]="true" (toggleFavorite)="remove($event.id)">
+      <app-character-card (cardClick)="openModal($event)" [character]="fav" [isFavorite]="true"
+        (toggleFavorite)="remove($event.id)">
       </app-character-card>
       }
     </div>
