@@ -11,9 +11,9 @@
       {{ characters.length }} {{ characters.length === 1 && characters.length > 0 ? 'personagem' : 'personagens' }}
     </p>
 
-    @if (isLoading && displayedCharacters.length === 0) {
+    @if (isLoading && displayedCharacters.length === 0 && displayedCharacters.length === 0) {
     <div class="container__content__characters">
-      @for (i of [1,2,3,4,5,6,7,8,9]; track i) {
+      @for (i of [1,2,3,4,5,6]; track i) {
       <div class="skeleton-card"></div>
       }
     </div>
