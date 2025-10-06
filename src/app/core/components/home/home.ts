@@ -9,7 +9,6 @@ import { CharacterDetailModalComponent } from '../character-detail/character-det
 import { SearchAutocompleteComponent } from '../search-autocomplete/search-autocomplete';
 import { SearchStateService } from '../../services/search-state';
 import { CharacterService } from '../../services/character';
-import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -40,16 +39,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     private searchStateService: SearchStateService,
     private favService: FavoritesService,
     private characterService: CharacterService,
-    private router: Router
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.searchStateService.results$
       .pipe(takeUntil(this.destroy$))
       .subscribe(results => {
-        if (results.length === 0) {
+        if (this.displayedCharacters.length === 0 && this.searchStateService.getCurrentSearchTerm() === '') {
           this.refreshCharacters();
-        } else {
+        } else if(this.searchStateService.getCurrentSearchTerm() !== '') {
+          console.log('else');
           this.characters = results;
           this.currentPage = 1;
           this.updatePagination();
