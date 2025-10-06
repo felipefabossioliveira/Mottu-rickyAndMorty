@@ -2,11 +2,9 @@
   <div class="container__content">
     <div class="container__content__search-box">
       <p class="container__content__search-box__title">Início</p>
-
-      <div class="input-container">
-        <input type="text" id="search-input" [formControl]="searchControl" class="input-field" placeholder=" " />
-        <label for="search-input" class="input-label">Pesquisar personagem</label>
-      </div>
+      <app-search-autocomplete placeholder="Pesquisar personagem" (searchChange)="onSearchChange($event)"
+        (suggestionSelected)="onSuggestionSelected($event)">
+      </app-search-autocomplete>
     </div>
 
     @if (characters.length > 0) {

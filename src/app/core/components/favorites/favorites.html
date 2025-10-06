@@ -1,35 +1,51 @@
 <div class="favorites-container">
-  <div class="favorites-container__header">
-    <h1 class="favorites-container__header__title">Favoritos</h1>
-    @if (allFavorites.length > 0) {
-    <p class="favorites-container__header__count">
-      {{ allFavorites.length }} {{ allFavorites.length === 1 ? 'personagem' : 'personagens' }}
-    </p>
+  <div class="favorites-container__wrapper">
+    <div class="favorites-container__header">
+      <div class="favorites-container__header__search-box">
+        <h1 class="favorites-container__header__title">Favoritos</h1>
+
+        @if (allFavorites.length > 0) {
+        <app-search-autocomplete placeholder="Buscar nos favoritos" (searchChange)="onSearchChange($event)"
+          (suggestionSelected)="onSuggestionSelected($event)">
+        </app-search-autocomplete>
+        }
+      </div>
+      @if (allFavorites.length > 0) {
+      <p class="favorites-container__header__count">
+        {{ filteredFavorites.length }} de {{ allFavorites.length }}
+        {{ allFavorites.length === 1 ? 'personagem' : 'personagens' }}
+      </p>
+      }
+    </div>
+
+
+    @if (displayedFavorites.length > 0) {
+    <div class="favorites-container__grid">
+      @for (fav of displayedFavorites; track fav.id) {
+      <app-character-card [character]="fav" [isFavorite]="true" (toggleFavorite)="remove($event.id)">
+      </app-character-card>
+      }
+    </div>
+
+    @if (filteredFavorites.length > itemsPerPage) {
+    <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)">
+    </app-pagination>
+    }
+    } @else if (displayedFavorites.length == 0) {
+    <div class="favorites-container__error">
+      <img src="assets/morty-gif.gif" alt="">
+      <p class="favorites-container__error__title">Nenhum favorito encontrado</p>
+      <p class="favorites-container__error__sub-title">Tente realizar uma nova busca</p>
+    </div>
+    } @else if (allFavorites.length === 0) {
+    <div class="favorites-container__empty">
+      <img src="assets/morty-gif.gif" alt="Morty dançando">
+      <p class="favorites-container__empty__title">Nenhum favorito ainda!</p>
+      <p class="favorites-container__empty__subtitle">Adicione personagens aos seus favoritos para vê-los aqui.</p>
+      <a routerLink="/home" class="favorites-container__empty__button">Buscar Personagens</a>
+    </div>
     }
   </div>
-
-  @if (allFavorites.length > 0) {
-  <div class="favorites-container__grid">
-    @for (fav of displayedFavorites; track fav.id) {
-    <app-character-card [character]="fav" [isFavorite]="true" (toggleFavorite)="remove($event.id)"
-      (cardClick)="openModal($event)">
-    </app-character-card>
-    }
-  </div>
-
-  @if (allFavorites.length > itemsPerPage) {
-  <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)">
-  </app-pagination>
-  } } @else {
-  <div class="favorites-container__empty">
-    <img src="assets/morty-gif.gif" alt="Morty dançando" />
-    <p class="favorites-container__empty__title">Nenhum favorito ainda!</p>
-    <p class="favorites-container__empty__subtitle">
-      Adicione personagens aos seus favoritos para vê-los aqui.
-    </p>
-    <a routerLink="/home" class="favorites-container__empty__button">Buscar Personagens</a>
-  </div>
-  }
 </div>
 
 @if (selectedCharacter) {

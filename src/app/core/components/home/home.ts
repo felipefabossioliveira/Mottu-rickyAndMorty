@@ -1,89 +1,83 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import {
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  of,
-  startWith,
-  Subject,
-  switchMap,
-  takeUntil,
-  tap,
-} from 'rxjs';
-import { CharacterService } from '../../services/character';
+import { Subject, takeUntil } from 'rxjs';
 import { FavoritesService } from '../../services/favorites';
 import { Character } from '../../models/character/character';
 import { CommonModule } from '@angular/common';
-import { CharacterApiResponse } from '../../models/character/character-api-response.model';
 import { CharacterCardComponent } from '../character-card/character-card';
 import { PaginationComponent } from '../pagination/pagination';
 import { CharacterDetailModalComponent } from '../character-detail/character-detail';
+import { SearchAutocompleteComponent } from '../search-autocomplete/search-autocomplete';
+import { SearchStateService } from '../../services/search-state';
+import { CharacterService } from '../../services/character';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CharacterCardComponent, PaginationComponent, CharacterDetailModalComponent, CharacterDetailModalComponent],
+  imports: [
+    CommonModule,
+    CharacterCardComponent,
+    PaginationComponent,
+    CharacterDetailModalComponent,
+    SearchAutocompleteComponent
+  ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  searchControl = new FormControl('');
   selectedCharacter: Character | null = null;
   characters: Character[] = [];
-  isLoading = true;
+  isLoading = false;
   errorMessage = '';
 
-  // Paginação LOCAL (9 por página)
   currentPage = 1;
   itemsPerPage = 9;
   totalPages = 0;
-  currentSearchTerm = '';
 
   private destroy$ = new Subject<void>();
 
-  constructor(private charService: CharacterService, private favService: FavoritesService) { }
+  constructor(
+    private searchStateService: SearchStateService,
+    private favService: FavoritesService,
+    private characterService: CharacterService
+  ) { }
 
   ngOnInit(): void {
-    this.searchControl.valueChanges
-      .pipe(
-        startWith(''),
-        debounceTime(400),
-        distinctUntilChanged(),
-        map((value) => value ?? ''),
-        tap((searchTerm) => {
-          this.isLoading = true;
-          this.errorMessage = '';
-          this.currentPage = 1;
-          this.currentSearchTerm = searchTerm;
-        }),
-        switchMap((name: string) =>
-          this.charService.searchCharacters(name, 1).pipe(
-            catchError((err) => {
-              this.errorMessage = 'Nenhum personagem encontrado.';
-              return of({
-                info: { count: 0, pages: 0, next: null, prev: null },
-                results: [],
-              } as CharacterApiResponse);
-            })
-          )
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((resp: CharacterApiResponse) => {
-        this.isLoading = false;
-        this.characters = resp.results || [];
+    this.searchStateService.results$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(results => {
+        this.characters = results;
+        this.currentPage = 1;
         this.updatePagination();
-
-        if (this.characters.length === 0 && !this.errorMessage) {
-          this.errorMessage = 'Nenhum personagem encontrado.';
-        }
       });
+
+    this.searchStateService.loading$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(loading => {
+        this.isLoading = loading;
+      });
+
+    this.searchStateService.error$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(error => {
+        this.errorMessage = error;
+      });
+
+    this.searchStateService.setSearchTerm('');
+    this.characterService.searchCharacters('').subscribe(characters => {
+      this.characters = characters.results;
+      this.updatePagination();
+    })
+  }
+
+  onSearchChange(searchTerm: string) {
+    this.searchStateService.setSearchTerm(searchTerm);
+  }
+
+  onSuggestionSelected(character: Character) {
+    this.openModal(character);
   }
 
   openModal(character: Character) {
-    console.log(character)
     this.selectedCharacter = character;
   }
 

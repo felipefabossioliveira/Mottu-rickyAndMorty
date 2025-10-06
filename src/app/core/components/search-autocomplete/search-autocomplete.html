@@ -1,0 +1,50 @@
+<div class="search-autocomplete">
+    <div class="search-autocomplete__input-wrapper">
+        <svg class="search-autocomplete__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+        </svg>
+
+        <input type="text" id="search-input" [formControl]="searchControl" class="search-autocomplete__input"
+            placeholder=" " (focus)="onInputFocus()" (blur)="onInputBlur()" />
+
+        <label for="search-input" class="search-autocomplete__label">{{ placeholder }}</label>
+
+        @if (searchControl.value) {
+        <button class="search-autocomplete__clear" (click)="clearSearch()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        }
+
+        @if (isLoading) {
+        <div class="search-autocomplete__loader"></div>
+        }
+    </div>
+
+    @if (showSuggestions && (suggestions.length > 0 || isLoading)) {
+    <div class="search-autocomplete__dropdown">
+        @if (isLoading) {
+        <div class="search-autocomplete__loading-state">
+            <span>Buscando...</span>
+        </div>
+        } @else {
+        @for (suggestion of suggestions; track suggestion.id) {
+        <div class="search-autocomplete__suggestion" (click)="selectSuggestion(suggestion)">
+            <img [src]="suggestion.image" [alt]="suggestion.name" class="search-autocomplete__suggestion-image">
+            <div class="search-autocomplete__suggestion-info">
+                <span class="search-autocomplete__suggestion-name">{{ suggestion.name }}</span>
+                <span class="search-autocomplete__suggestion-details">
+                    {{ suggestion.species }} • {{ suggestion.status }}
+                </span>
+            </div>
+        </div>
+        }
+        }
+    </div>
+    }
+</div>

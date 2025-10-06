@@ -1,0 +1,227 @@
+.search-autocomplete {
+  position: relative;
+  width: 327px;
+
+  &__input-wrapper {
+    position: relative;
+    padding: 2px;
+    background: linear-gradient(135deg, #00b5cc, #b2df28, #00b5cc);
+    background-size: 200% 200%;
+    border-radius: 12px;
+    animation: gradientIdle 3s ease infinite;
+
+    &:focus-within {
+      animation: gradientActive 1.5s ease infinite;
+      box-shadow: 0 0 20px rgba(0, 181, 204, 0.4), 0 0 40px rgba(178, 223, 40, 0.2);
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a4a4a4;
+    pointer-events: none;
+    z-index: 1;
+    transition: all 0.3s ease;        
+  }
+
+  &__input {
+    width: 100%;
+    padding: 25px 48px 25px 48px;
+    border: none;
+    border-radius: 10px;
+    background-color: #0a0a0a;
+    color: #cacacabd;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    outline: none;
+
+    &::placeholder {
+      color: transparent;
+    }
+
+    &:focus ~ .search-autocomplete__label,
+    &:not(:placeholder-shown) ~ .search-autocomplete__label {
+      top: 15px;
+      font-size: 12px;
+      color: #00b5cc;
+      font-weight: 600;
+    }
+
+    &:focus ~ .search-autocomplete__icon {
+      color: #00b5cc;
+    }
+  }
+
+  &__label {
+    position: absolute;
+    left: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a4a4a4;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__clear {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #a4a4a4;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 2;
+
+    &:hover {
+      background: rgba(255, 71, 87, 0.1);
+      color: #ff4757;
+    }
+  }
+
+  &__loader {        
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid #3d3d3d;
+    border-top-color: #00b5cc;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  &__dropdown {        
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #141414;
+    border: 2px solid #00b5cc;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    animation: slideDown 0.3s ease;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #3d3d3d;
+      border-radius: 3px;
+
+      &:hover {
+        background: #00b5cc;
+      }
+    }
+  }
+
+  &__loading-state {
+    padding: 16px;
+    text-align: center;
+    color: #a4a4a4;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+  }
+
+  &__suggestion {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(0, 181, 204, 0.1);
+      padding-left: 16px;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #3d3d3d;
+    }
+  }
+
+  &__suggestion-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  &__suggestion-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
+
+  &__suggestion-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fafafa;
+  }
+
+  &__suggestion-details {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    color: #a4a4a4;
+  }
+}
+
+@keyframes gradientIdle {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradientActive {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
