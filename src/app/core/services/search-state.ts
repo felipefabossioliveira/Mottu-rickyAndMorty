@@ -55,7 +55,7 @@ export class SearchStateService {
         });
     }
 
-    setSearchTerm(term: string) {
+    setSearchTerm(term: string = ' ') {
         this.searchTermSubject.next(term);
     }
 

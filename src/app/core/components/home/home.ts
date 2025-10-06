@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { FavoritesService } from '../../services/favorites';
 import { Character } from '../../models/character/character';
 import { CommonModule } from '@angular/common';
@@ -24,6 +24,8 @@ import { CharacterService } from '../../services/character';
   styleUrl: './home.scss',
 })
 export class HomeComponent implements OnInit, OnDestroy {
+
+
   selectedCharacter: Character | null = null;
   characters: Character[] = [];
   isLoading = false;
@@ -63,10 +65,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
 
     this.searchStateService.setSearchTerm('');
-    this.characterService.searchCharacters('').subscribe(characters => {
-      this.characters = characters.results;
-      this.updatePagination();
-    })
+
+    this.refreshCharacters();
+  }
+
+  refreshCharacters() {
+    if (this.characters.length === 0) {
+      this.characterService.searchCharacters('').subscribe(characters => {
+        this.characters = characters.results;
+        this.updatePagination();
+      })
+    }
   }
 
   onSearchChange(searchTerm: string) {

@@ -44,7 +44,7 @@
 
     &:focus ~ .search-autocomplete__label,
     &:not(:placeholder-shown) ~ .search-autocomplete__label {
-      top: 15px;
+      top: 18px;
       font-size: 12px;
       color: #00b5cc;
       font-weight: 600;

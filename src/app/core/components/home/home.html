@@ -7,24 +7,25 @@
       </app-search-autocomplete>
     </div>
 
-    @if (characters.length > 0) {
     <p class="container__content__count">
-      {{ characters.length }} {{ characters.length === 1 ? 'personagem' : 'personagens' }}
+      {{ characters.length }} {{ characters.length === 1 && characters.length > 0 ? 'personagem' : 'personagens' }}
     </p>
 
-    } @if (isLoading) {
+    @if (isLoading) {
     <div class="container__content__characters">
-      @for (i of [1,2,3,4,5,6,7,8,9]; track i) {
+      @for (i of [1,2,3,4,5,6]; track i) {
       <div class="skeleton-card"></div>
       }
     </div>
-    } @if (!isLoading && errorMessage) {
+    }
+    @else if (errorMessage) {
     <div class="container__content__error">
       <img src="assets/morty-gif.gif" alt="">
       <p class="container__content__error__title">{{ errorMessage }}</p>
       <p class="container__content__error__sub-title">Tente realizar uma nova busca</p>
     </div>
-    } @if (!isLoading && displayedCharacters.length > 0) {
+    }
+    @else if (displayedCharacters.length > 0) {
     <div class="container__content__characters">
       @for (char of displayedCharacters; track char.id) {
       <app-character-card [character]="char" [isFavorite]="isFavorite(char)" (toggleFavorite)="onToggleFavorite($event)"
@@ -32,7 +33,9 @@
       </app-character-card>
       }
     </div>
-    } @if (!isLoading && characters.length > itemsPerPage) {
+    }
+
+    @if (!isLoading && characters.length > itemsPerPage) {
     <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)">
     </app-pagination>
     }
