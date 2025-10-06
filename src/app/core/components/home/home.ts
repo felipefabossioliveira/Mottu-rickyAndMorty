@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 import { FavoritesService } from '../../services/favorites';
 import { Character } from '../../models/character/character';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,7 @@ import { CharacterDetailModalComponent } from '../character-detail/character-det
 import { SearchAutocompleteComponent } from '../search-autocomplete/search-autocomplete';
 import { SearchStateService } from '../../services/search-state';
 import { CharacterService } from '../../services/character';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -24,8 +25,6 @@ import { CharacterService } from '../../services/character';
   styleUrl: './home.scss',
 })
 export class HomeComponent implements OnInit, OnDestroy {
-
-
   selectedCharacter: Character | null = null;
   characters: Character[] = [];
   isLoading = false;
@@ -40,16 +39,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private searchStateService: SearchStateService,
     private favService: FavoritesService,
-    private characterService: CharacterService
+    private characterService: CharacterService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.searchStateService.results$
       .pipe(takeUntil(this.destroy$))
       .subscribe(results => {
-        this.characters = results;
-        this.currentPage = 1;
-        this.updatePagination();
+        if (results.length === 0) {
+          this.refreshCharacters();
+        } else {
+          this.characters = results;
+          this.currentPage = 1;
+          this.updatePagination();
+        }
       });
 
     this.searchStateService.loading$
@@ -63,20 +67,15 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(error => {
         this.errorMessage = error;
       });
-
-    this.searchStateService.setSearchTerm('');
-
-    this.refreshCharacters();
   }
 
   refreshCharacters() {
-    if (this.characters.length === 0) {
-      this.characterService.searchCharacters('').subscribe(characters => {
-        this.characters = characters.results;
-        this.updatePagination();
-      })
-    }
+    this.characterService.searchCharacters(' ').subscribe(response => {
+      this.characters = response.results ?? response;
+      this.updatePagination();
+    });
   }
+
 
   onSearchChange(searchTerm: string) {
     this.searchStateService.setSearchTerm(searchTerm);
