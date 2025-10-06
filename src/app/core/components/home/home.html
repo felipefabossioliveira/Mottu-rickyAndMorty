@@ -35,7 +35,7 @@
     </div>
     }
 
-    @if (!isLoading && characters.length > itemsPerPage) {
+    @if (!isLoading && !errorMessage && characters.length > itemsPerPage) {
     <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)">
     </app-pagination>
     }
